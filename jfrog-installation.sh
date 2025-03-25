@@ -3,7 +3,7 @@
 set -e
 
 # Define paths and versions
-ARTIFACTORY_VERSION="6.9.6"
+ARTIFACTORY_VERSION="7.46.3"
 ARTIFACTORY_DIR="/opt/artifactory/artifactory-oss-${ARTIFACTORY_VERSION}"
 SERVICE_FILE_PATH="/etc/systemd/system/artifactory.service"
 
@@ -27,7 +27,7 @@ After=syslog.target network.target
 Type=forking
 
 # Correct JAVA_HOME path
-Environment="JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64"
+Environment="JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64"
 Environment="CATALINA_PID=${ARTIFACTORY_DIR}/run/artifactory.pid"
 Environment="CATALINA_HOME=${ARTIFACTORY_DIR}/tomcat"
 Environment="CATALINA_BASE=${ARTIFACTORY_DIR}/tomcat"
@@ -47,12 +47,12 @@ WantedBy=multi-user.target
 EOF
 }
 
-# Check if Java 11 is installed
-echo "Checking for Java 11 installation..."
+# Check if Java 17 is installed
+echo "Checking for Java 17 installation..."
 if ! java -version 2>&1 | grep -q "11"; then
-    echo -e "\n\n*****Java 11 not found. Installing Java 11..."
+    echo -e "\n\n*****Java 17 not found. Installing Java 17..."
     sudo apt-get update -y > /dev/null 2>&1
-    sudo apt-get install -y openjdk-11-jre unzip > /dev/null 2>&1
+    sudo apt-get install -y openjdk-17-jre unzip > /dev/null 2>&1
     echo "            -> Java 17 installed"
 else
     echo "            -> Java 17 is already installed"
